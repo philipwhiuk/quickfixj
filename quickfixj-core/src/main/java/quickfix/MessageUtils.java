@@ -390,7 +390,7 @@ public class MessageUtils {
     public static int length(Charset charset, String data) {
         return CharsetSupport.isStringEquivalent(charset) ? data.length() : data.getBytes(charset).length;
     }
-    
+
     /**
      * Returns an InvalidMessage Exception with optionally attached FIX message.
      *
