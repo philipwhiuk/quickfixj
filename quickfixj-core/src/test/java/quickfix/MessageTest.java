@@ -129,6 +129,8 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import quickfix.fix44.TradeCaptureReport;
+
 
 public class MessageTest {
 
@@ -188,8 +190,8 @@ public class MessageTest {
 
         assertTrue(myMessage.toString().contains("52=20120922-11:00:00\00134=22\00149=foo\00156=bar"));
     }
-    
-    
+
+
     @Test
     public void testHeaderFieldWithCustomTransportDictionaryConstructorReadsHeaderField() throws Exception {
 
@@ -1502,7 +1504,7 @@ public class MessageTest {
             // do not use validation to parse full message
             // regardless of errors in message structure
             Message parsed2 = new Message(s2, DataDictionaryTest.getDictionary(), false);
-            
+
             assertEquals(s2, parsed2.toString());
             assertEquals(2, parsed2.getGroupCount(555));
 
@@ -1599,7 +1601,7 @@ public class MessageTest {
                 failingTag = e.getField();
             }
             assertEquals(Text.FIELD, failingTag);
-            
+
             // but without checking for unknown message fields, validation should succeed
             dictionary.setAllowUnknownMessageFields(true);
             dictionary.validate(parsed2);
@@ -1640,7 +1642,7 @@ public class MessageTest {
         responseMessage.setField(resultCode);
 
         DataDictionary dd = new DataDictionary(DataDictionaryTest.getDictionary());
-        
+
         int tagNo = 0;
         try {
             dd.validate(responseMessage, true);
@@ -1676,7 +1678,7 @@ public class MessageTest {
     // QFJ-169/QFJ-791
     public void testNestedRepeatingGroup()
         throws Exception {
-        
+
         String newOrdersSingleString = "8=FIX.4.4|9=265|35=D|34=62|49=sender|52=20160803-12:55:42.094|"
                 + "56=target|11=16H03A0000021|15=CHF|22=4|38=13|40=2|44=132|48=CH000000000|54=1|55=[N/A]|59=0|"
                 + "60=20160803-12:55:41.866|207=XXXX|423=2|526=foo|528=P|"
@@ -1758,7 +1760,7 @@ public class MessageTest {
     @Test
     // QFJ-792
     public void testRepeatingGroupCountForIncorrectFieldOrder() throws Exception {
-        // correct order would be 600, 687, 654, 566 
+        // correct order would be 600, 687, 654, 566
         testRepeatingGroupCountForFieldOrder(new int[]{600, 687, 566, 654});
     }
 
@@ -1806,7 +1808,7 @@ public class MessageTest {
         // but we still should have the repeating group set and not ignore it
         assertEquals(1, parsed.getGroupCount(555));
     }
-    
+
     // QFJ-533
     @Test
     public void testRepeatingGroupCountWithNonIntegerValues() throws Exception {
@@ -1823,7 +1825,7 @@ public class MessageTest {
             fail("InvalidMessage expected, got " + e.getClass().getName());
         }
     }
-    
+
 
     // QFJ-770/QFJ-792
     @Test
@@ -1833,7 +1835,7 @@ public class MessageTest {
                 + "436=10.0|9013=1.0|9014=1.0|9017=10|9022=1|9024=1.0|9025=Y|916=20140701|917=20150731|9201=23974|"
                 + "9200=17|9202=text|9300=727|9301=text|9302=text|9303=text|998=text|9100=text|9101=text|9085=text|"
                 + "9083=0|9084=0|9061=579|9062=text|9063=text|9032=10.0|9002=F|9004=780415|9005=780503|10=223|";
-        
+
         DataDictionary dictionary = new DataDictionary(DataDictionaryTest.getDictionary());
         Message message = new Message();
         message.fromString(test.replaceAll("\\|", "\001"), dictionary, true);
@@ -1851,7 +1853,7 @@ public class MessageTest {
                 + "436=10.0|9013=1.0|9014=1.0|9017=10|9022=1|9024=1.0|9025=Y|916=20140701|917=20150731|9201=23974|"
                 + "9200=17|9202=text|9300=727|9301=text|9302=text|9303=text|998=text|9100=text|9101=text|9085=text|"
                 + "9083=0|9084=0|9061=579|9062=text|9063=text|9032=10.0|9002=F|9004=780415|9005=780503|10=223|";
-        
+
         DataDictionary dictionary = new DataDictionary(DataDictionaryTest.getDictionary());
         Message message = new Message();
         message.fromString(test.replaceAll("\\|", "\001"), dictionary, true);
